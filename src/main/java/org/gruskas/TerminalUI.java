@@ -47,7 +47,9 @@ public class TerminalUI {
         ArrayList<Path> files = findTxtFiles();
 
         for (Path file : files) {
-            System.out.println(file);
+            String fileName = file.getFileName().toString();
+            fileName = fileName.substring(0, fileName.length() - 4);
+            System.out.println(fileName);
         }
     }
 }
