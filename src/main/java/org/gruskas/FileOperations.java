@@ -16,9 +16,7 @@ public class FileOperations {
     public static String folderPath = "." + File.separator + "files";
 
     public static void createDirectory() throws IOException {
-        String folderPath = "files";
         Path path = Paths.get(folderPath);
-
         if (!Files.exists(path)) {
             Files.createDirectories(path);
         }
@@ -58,11 +56,13 @@ public class FileOperations {
 
     public static void ReadFile(String name) {
         try {
+            int i = 1;
             File file = new File(folderPath + File.separator + name + ".txt");
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
-                System.out.println(data);
+                System.out.println(i + ". " + data);
+                i++;
             }
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
@@ -80,17 +80,56 @@ public class FileOperations {
         }
     }
 
+    public static void DeleteLine(String fileName, int lineNumber) {
+        Path filePath = Paths.get(folderPath + File.separator + fileName + ".txt");
+        try {
+            ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(filePath);
+
+            if (lineNumber > 0 && lineNumber <= lines.size()) {
+                lines.remove(lineNumber - 1);
+                Files.write(filePath, lines);
+                System.out.println("Line " + lineNumber + " has been deleted from the file: " + fileName);
+            } else {
+                System.out.println("Invalid line number.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while deleting the line: " + e.getMessage());
+        }
+    }
+
+    public static void UpdateLine(String fileName, int lineNumber, String newContent) {
+        Path filePath = Paths.get(folderPath + File.separator + fileName + ".txt");
+        try {
+            ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(filePath);
+
+            if (lineNumber > 0 && lineNumber <= lines.size()) {
+                String formattedDate = DateTimeNow();
+                lines.set(lineNumber - 1, newContent + " | " + formattedDate);
+                Files.write(filePath, lines);
+                System.out.println("Line " + lineNumber + " has been updated in the file: " + fileName);
+            } else {
+                System.out.println("Invalid line number.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while updating the line: " + e.getMessage());
+        }
+    }
+
     public static void WriteToFile(String name, String content, Boolean append) {
         try {
-            LocalDateTime DateTime = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String formattedDate = formatter.format(DateTime);
+            String formattedDate = DateTimeNow();
             FileWriter Writer = new FileWriter(folderPath + File.separator + name + ".txt", append);
 
-            Writer.write(content + " | " + formattedDate + System.lineSeparator() );
+            Writer.write(content + " | " + formattedDate + System.lineSeparator());
             Writer.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String DateTimeNow() {
+        LocalDateTime DateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return formatter.format(DateTime);
     }
 }

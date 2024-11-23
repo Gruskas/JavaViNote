@@ -1,12 +1,13 @@
 package org.gruskas;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class InputHandler {
+    static Scanner scanner = new Scanner(System.in);
 
     public static String selectAction() {
-        Scanner scanner = new Scanner(System.in);
         System.out.print("-> ");
         return scanner.nextLine();
     }
@@ -19,26 +20,35 @@ public class InputHandler {
                 break;
             case ":n":
                 try {
-                    FileOperations.CreateFile(FileName());
+                    FileOperations.CreateFile(getFileName());
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 break;
             case ":d":
-                FileOperations.DeleteFile(FileName());
+                FileOperations.DeleteFile(getFileName());
+                break;
+            case ":dl":
+                try {
+                    System.out.print("Enter a line to delete: ");
+                    int line = scanner.nextInt();
+                    scanner.nextLine();
+                    FileOperations.DeleteLine(getFileName(), line);
+                } catch (Exception e) {
+                    throw new RuntimeException("Error while deleting line");
+                }
                 break;
             case ":o":
-                FileOperations.ReadFile(FileName());
+                FileOperations.ReadFile(getFileName());
                 break;
             case ":ow":
                 try {
                     boolean append = false;
-                    Scanner scanner = new Scanner(System.in);
                     System.out.print("Enter File name: ");
-                    String FileName = scanner.nextLine();
-                    System.out.print("Enter a sentence(overwrites the contents of the file): ");
-                    String content = scanner.nextLine();
-                    FileOperations.WriteToFile(FileName, content, append);
+                    ArrayList<String> details = getFileDetails(append);
+                    String fileName = details.get(0);
+                    String content = details.get(1);
+                    FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -47,12 +57,24 @@ public class InputHandler {
             case ":a":
                 try {
                     boolean append = true;
-                    Scanner scanner = new Scanner(System.in);
-                    System.out.print("Enter File name: ");
-                    String FileName = scanner.nextLine();
-                    System.out.print("Enter a sentence: ");
-                    String content = scanner.nextLine();
-                    FileOperations.WriteToFile(FileName, content, append);
+                    ArrayList<String> details = getFileDetails(append);
+                    String fileName = details.get(0);
+                    String content = details.get(1);
+                    FileOperations.WriteToFile(fileName, content, append);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            case ":uf":
+                try {
+                    boolean append = true;
+                    ArrayList<String> details = getFileDetails(append);
+                    System.out.print("Enter the lines to replace: ");
+                    int line = scanner.nextInt();
+                    scanner.nextLine();
+                    String fileName = details.get(0);
+                    String newContent = details.get(1);
+                    FileOperations.UpdateLine(fileName, line, newContent);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -62,9 +84,21 @@ public class InputHandler {
         }
     }
 
-    private static String FileName() {
-        Scanner scanner = new Scanner(System.in);
+    private static String getFileName() {
         System.out.print("Enter File name: ");
         return scanner.nextLine();
+    }
+
+    private static ArrayList getFileDetails(boolean append) {
+        ArrayList<String> list = new ArrayList<>();
+        System.out.print("Enter File name: ");
+        list.add(scanner.nextLine());
+        if (append) {
+            System.out.print("Enter a sentence: ");
+        } else {
+            System.out.print("Enter a sentence(overwrites the contents of the file): ");
+        }
+        list.add(scanner.nextLine());
+        return list;
     }
 }

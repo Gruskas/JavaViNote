@@ -45,11 +45,11 @@ public class TerminalUI {
 
     public static void showFiles() throws IOException {
         ArrayList<Path> files = findTxtFiles();
-
+        int index = 1;
         for (Path file : files) {
             String fileName = file.getFileName().toString();
             fileName = fileName.substring(0, fileName.length() - 4);
-            System.out.println(fileName);
+            System.out.printf("%d. %s%n", index++, fileName);
         }
     }
 }
