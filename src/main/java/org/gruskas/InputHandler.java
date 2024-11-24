@@ -4,11 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static org.gruskas.TerminalUI.*;
+
 public class InputHandler {
     static Scanner scanner = new Scanner(System.in);
 
     public static String selectAction() {
-        System.out.print("-> ");
+        System.out.print(ANSI_GREEN + "->" + ANSI_RESET);
         return scanner.nextLine();
     }
 
@@ -16,7 +18,6 @@ public class InputHandler {
         switch (input) {
             case ":q":
                 Main.running = false;
-                System.exit(0);
                 break;
             case ":n":
                 try {
@@ -35,7 +36,7 @@ public class InputHandler {
                     scanner.nextLine();
                     FileOperations.DeleteLine(getFileName(), line);
                 } catch (Exception e) {
-                    throw new RuntimeException("Error while deleting line");
+                    throw new RuntimeException(ANSI_RED +  "Error while deleting line" + ANSI_RESET);
                 }
                 break;
             case ":o":

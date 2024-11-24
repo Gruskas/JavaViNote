@@ -31,9 +31,7 @@ public class FileOperations {
                     .filter(x -> {
                         return x.toString().endsWith(".txt");
                     })
-                    .forEach(x -> {
-                        txtFiles.add(x);
-                    });
+                    .forEach(txtFiles::add);
         }
         if (txtFiles.isEmpty()) {
             txtFiles.add(Path.of("There are no files"));

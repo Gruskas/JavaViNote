@@ -25,6 +25,7 @@ public class TerminalUI {
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+    public static final String ANSI_BOLD = "\u001B[1m";
     private static FileOperations KeyHandler;
 
     public static void printBanner() {
@@ -46,10 +47,27 @@ public class TerminalUI {
     public static void showFiles() throws IOException {
         ArrayList<Path> files = findTxtFiles();
         int index = 1;
+        int longest = 1;
+
         for (Path file : files) {
             String fileName = file.getFileName().toString();
             fileName = fileName.substring(0, fileName.length() - 4);
-            System.out.printf("%d. %s%n", index++, fileName);
+            if (fileName.length() > longest) {
+                longest = fileName.length();
+            }
         }
+
+        longest += longest + 6;
+        String HeightLine = " ".repeat(longest);
+        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+        System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " |" + ANSI_RESET);
+        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+
+        for (Path file : files) {
+            String fileName = file.getFileName().toString();
+            fileName = fileName.substring(0, fileName.length() - 4);
+            System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(longest - fileName.length() - 7) + ANSI_RED + " |" + ANSI_RESET);
+        }
+        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
     }
 }

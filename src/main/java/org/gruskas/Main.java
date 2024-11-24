@@ -10,10 +10,15 @@ public class Main {
         FileOperations.createDirectory();
         TerminalUI.printBanner();
 
-        while (running) {
-            TerminalUI.showFiles();
-            String action = InputHandler.selectAction();
-            InputHandler.Action(action);
+        try {
+            while (running) {
+                TerminalUI.showFiles();
+                String action = InputHandler.selectAction();
+                InputHandler.Action(action);
+            }
+        } finally {
+            System.out.println("Exiting the program.");
+            System.exit(0);
         }
     }
 }
