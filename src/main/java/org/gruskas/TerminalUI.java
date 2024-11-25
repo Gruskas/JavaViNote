@@ -46,28 +46,32 @@ public class TerminalUI {
 
     public static void showFiles() throws IOException {
         ArrayList<Path> files = findTxtFiles();
-        int index = 1;
-        int longest = 1;
+        if (files.isEmpty()) {
+            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
+        } else {
+            int index = 1;
+            int longest = 0;
 
-        for (Path file : files) {
-            String fileName = file.getFileName().toString();
-            fileName = fileName.substring(0, fileName.length() - 4);
-            if (fileName.length() > longest) {
-                longest = fileName.length();
+            for (Path file : files) {
+                String fileName = file.getFileName().toString();
+                fileName = fileName.substring(0, fileName.length() - 4);
+                if (fileName.length() > longest) {
+                    longest = fileName.length();
+                }
             }
-        }
 
-        longest += longest + 6;
-        String HeightLine = " ".repeat(longest);
-        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
-        System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " |" + ANSI_RESET);
-        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+            longest = Math.max(longest, 10) + 6;
+            String HeightLine = " ".repeat(longest);
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " |" + ANSI_RESET);
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
 
-        for (Path file : files) {
-            String fileName = file.getFileName().toString();
-            fileName = fileName.substring(0, fileName.length() - 4);
-            System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(longest - fileName.length() - 7) + ANSI_RED + " |" + ANSI_RESET);
+            for (Path file : files) {
+                String fileName = file.getFileName().toString();
+                fileName = fileName.substring(0, fileName.length() - 4);
+                System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(longest - fileName.length() - 7) + ANSI_RED + " |" + ANSI_RESET);
+            }
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
         }
-        System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
     }
 }

@@ -18,7 +18,12 @@ public class FileOperations {
     public static void createDirectory() throws IOException {
         Path path = Paths.get(folderPath);
         if (!Files.exists(path)) {
-            Files.createDirectories(path);
+            try {
+                Files.createDirectories(path);
+            } catch (IOException e) {
+                System.out.println("Failed to create directory: " + e.getMessage());
+                e.printStackTrace();
+            }
         }
     }
 
@@ -32,9 +37,6 @@ public class FileOperations {
                         return x.toString().endsWith(".txt");
                     })
                     .forEach(txtFiles::add);
-        }
-        if (txtFiles.isEmpty()) {
-            txtFiles.add(Path.of("There are no files"));
         }
         return txtFiles;
     }
