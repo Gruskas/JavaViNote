@@ -10,7 +10,7 @@ public class InputHandler {
     static Scanner scanner = new Scanner(System.in);
 
     public static String selectAction() {
-        System.out.print(ANSI_GREEN + "->" + ANSI_RESET);
+        System.out.print(ANSI_GREEN + "-> " + ANSI_RESET);
         return scanner.nextLine();
     }
 
@@ -23,7 +23,8 @@ public class InputHandler {
                 try {
                     FileOperations.CreateFile(getFileName());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Failed to create file: ", e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":d":
@@ -36,7 +37,8 @@ public class InputHandler {
                     scanner.nextLine();
                     FileOperations.DeleteLine(getFileName(), line);
                 } catch (Exception e) {
-                    throw new RuntimeException(ANSI_RED +  "Error while deleting line" + ANSI_RESET);
+                    TerminalUI.Error("Error while deleting line", e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":o":
@@ -51,9 +53,9 @@ public class InputHandler {
                     String content = details.get(1);
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
-
                 break;
             case ":a":
                 try {
@@ -63,7 +65,8 @@ public class InputHandler {
                     String content = details.get(1);
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":uf":
@@ -77,11 +80,12 @@ public class InputHandler {
                     String newContent = details.get(1);
                     FileOperations.UpdateLine(fileName, line, newContent);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             default:
-                System.out.println("Invalid input");
+                TerminalUI.Error("Invalid input");
         }
     }
 

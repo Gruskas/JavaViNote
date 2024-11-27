@@ -47,7 +47,8 @@ public class TerminalUI {
     public static void showFiles() throws IOException {
         ArrayList<Path> files = findTxtFiles();
         if (files.isEmpty()) {
-            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
+//            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
+            Error("There are no files.");
         } else {
             int index = 1;
             int longest = 0;
@@ -73,5 +74,14 @@ public class TerminalUI {
             }
             System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
         }
+    }
+
+    public static void Error(String message) {
+        System.out.println(ANSI_RED + message + ANSI_RESET);
+    }
+
+    public static void Error(String message, String details) {
+        System.out.print(ANSI_RED + message + ANSI_RESET);
+        System.out.println(details);
     }
 }

@@ -15,13 +15,13 @@ import java.util.Scanner;
 public class FileOperations {
     public static String folderPath = "." + File.separator + "files";
 
-    public static void createDirectory() throws IOException {
+    public static void createDirectory() {
         Path path = Paths.get(folderPath);
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
             } catch (IOException e) {
-                System.out.println("Failed to create directory: " + e.getMessage());
+                TerminalUI.Error("Failed to create directory: ", e.getMessage());
                 e.printStackTrace();
             }
         }
@@ -50,7 +50,8 @@ public class FileOperations {
                 System.out.println("File already exists.");
             }
         } catch (IOException e) {
-            System.out.println("Error while creating file: " + e.getMessage());
+            TerminalUI.Error("Error while creating file: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -65,8 +66,7 @@ public class FileOperations {
                 i++;
             }
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+            TerminalUI.Error("An error occurred while reading the file: ", e.getMessage());
         }
     }
 
@@ -76,7 +76,7 @@ public class FileOperations {
         if (file.delete()) {
             System.out.println("The file was successfully deleted: " + file.getName());
         } else {
-            System.out.println("This file does not exist");
+            TerminalUI.Error("This file does not exist");
         }
     }
 
@@ -90,10 +90,10 @@ public class FileOperations {
                 Files.write(filePath, lines);
                 System.out.println("Line " + lineNumber + " has been deleted from the file: " + fileName);
             } else {
-                System.out.println("Invalid line number.");
+                TerminalUI.Error("Invalid line number.");
             }
         } catch (IOException e) {
-            throw new RuntimeException("An error occurred while deleting the line: " + e.getMessage());
+            TerminalUI.Error("An error occurred while deleting the line: " + e.getMessage());
         }
     }
 
@@ -108,10 +108,10 @@ public class FileOperations {
                 Files.write(filePath, lines);
                 System.out.println("Line " + lineNumber + " has been updated in the file: " + fileName);
             } else {
-                System.out.println("Invalid line number.");
+                TerminalUI.Error("Invalid line number.");
             }
         } catch (IOException e) {
-            throw new RuntimeException("An error occurred while updating the line: " + e.getMessage());
+            TerminalUI.Error("An error occurred while updating the line: ", e.getMessage());
         }
     }
 
@@ -123,7 +123,7 @@ public class FileOperations {
             Writer.write(content + " | " + formattedDate + System.lineSeparator());
             Writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            TerminalUI.Error("An error occurred while writing to the file: ", e.getMessage());
         }
     }
 

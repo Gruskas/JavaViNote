@@ -17,7 +17,7 @@ public class Main {
                 InputHandler.Action(action);
             }
         } finally {
-            System.out.println("Exiting the program.");
+            TerminalUI.Error("Exiting the program.");
             System.exit(0);
         }
     }
