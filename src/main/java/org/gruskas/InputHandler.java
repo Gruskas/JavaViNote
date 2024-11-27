@@ -11,7 +11,7 @@ public class InputHandler {
     static Scanner scanner = new Scanner(System.in);
 
     public static String selectAction() {
-        System.out.print(ANSI_GREEN + "->" + ANSI_RESET);
+        System.out.print(ANSI_GREEN + "-> " + ANSI_RESET);
         return scanner.nextLine();
     }
 
@@ -24,7 +24,8 @@ public class InputHandler {
                 try {
                     FileOperations.CreateFile(getFileName());
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Failed to create file: ", e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":d":
@@ -37,7 +38,8 @@ public class InputHandler {
                     scanner.nextLine();
                     FileOperations.DeleteLine(getFileName(), line);
                 } catch (Exception e) {
-                    throw new RuntimeException(ANSI_RED +  "Error while deleting line" + ANSI_RESET);
+                    TerminalUI.Error("Error while deleting line", e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":o":
@@ -46,15 +48,14 @@ public class InputHandler {
             case ":ow":
                 try {
                     boolean append = false;
-                    System.out.print("Enter File name: ");
                     ArrayList<String> details = getFileDetails(append);
                     String fileName = details.get(0);
                     String content = details.get(1);
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
-
                 break;
             case ":a":
                 try {
@@ -64,7 +65,8 @@ public class InputHandler {
                     String content = details.get(1);
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             case ":uf":
@@ -78,11 +80,12 @@ public class InputHandler {
                     String newContent = details.get(1);
                     FileOperations.UpdateLine(fileName, line, newContent);
                 } catch (Exception e) {
-                    throw new RuntimeException(e);
+                    TerminalUI.Error("Unexpected error: " + e.getMessage());
+                    e.printStackTrace();
                 }
                 break;
             default:
-                System.out.println("Invalid input");
+                TerminalUI.warn("Invalid input");
         }
     }
 
@@ -93,12 +96,12 @@ public class InputHandler {
 
     private static ArrayList<String> getFileDetails(boolean append) {
         ArrayList<String> list = new ArrayList<>();
-        System.out.print("Enter File name: ");
-        list.add(scanner.nextLine());
+        list.add(getFileName());
         if (append) {
             System.out.print("Enter a sentence: ");
         } else {
-            System.out.print("Enter a sentence(overwrites the contents of the file): ");
+            TerminalUI.warn("overwrites the contents of the file!");
+            System.out.print("Enter a sentence: ");
         }
         list.add(scanner.nextLine());
         return list;
