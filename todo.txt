@@ -1,0 +1,3 @@
+- fix txt extension exception
+- add little steam coffee effect on the main screen
+- add terminal spacing (command line always on the bottom)

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import static org.gruskas.TerminalUI.*;
+import static org.gruskas.TerminalDimensions.*;
 
 public class InputHandler {
     static Scanner scanner = new Scanner(System.in);
@@ -90,7 +91,7 @@ public class InputHandler {
         return scanner.nextLine();
     }
 
-    private static ArrayList getFileDetails(boolean append) {
+    private static ArrayList<String> getFileDetails(boolean append) {
         ArrayList<String> list = new ArrayList<>();
         System.out.print("Enter File name: ");
         list.add(scanner.nextLine());

@@ -55,10 +55,9 @@ public class FileOperations {
     }
 
     public static void ReadFile(String name) {
-        try {
+        File file = new File(folderPath + File.separator + name + ".txt");
+        try (Scanner scanner = new Scanner(file)){
             int i = 1;
-            File file = new File(folderPath + File.separator + name + ".txt");
-            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
                 System.out.println(i + ". " + data);

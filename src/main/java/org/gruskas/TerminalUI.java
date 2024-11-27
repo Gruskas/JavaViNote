@@ -26,7 +26,7 @@ public class TerminalUI {
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     public static final String ANSI_BOLD = "\u001B[1m";
-    private static FileOperations KeyHandler;
+    //private static FileOperations KeyHandler;
 
     public static void printBanner() {
         System.out.println(String.format("""
@@ -61,7 +61,7 @@ public class TerminalUI {
             }
 
             longest = Math.max(longest, 10) + 6;
-            String HeightLine = " ".repeat(longest);
+            //String HeightLine = " ".repeat(longest);
             System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
             System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " |" + ANSI_RESET);
             System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
