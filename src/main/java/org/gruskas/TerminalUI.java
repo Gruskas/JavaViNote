@@ -13,9 +13,8 @@ public class TerminalUI {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_BOLD = "\u001B[1m";
-    public static final String RED_BRIGHT = "\033[0;91m";    // RED
-    public static final String CYAN_BOLD = "\033[1;36m";   // CYAN
-    private static FileOperations KeyHandler;
+    public static final String RED_BRIGHT = "\033[0;91m";
+    public static final String CYAN_BOLD = "\033[1;36m";
 
     public static void printBanner() {
         System.out.println(String.format("""

@@ -1,13 +1,17 @@
 package org.gruskas;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
+import static org.gruskas.FileOperations.findTxtFiles;
 import static org.gruskas.TerminalUI.*;
 
 public class InputHandler {
-    static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
+    private static final Random random = new Random();
 
     public static String selectAction() {
         System.out.print(ANSI_BOLD + ANSI_GREEN + "-> " + ANSI_RESET);
@@ -88,9 +92,46 @@ public class InputHandler {
         }
     }
 
+    private static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
     private static String getFileName() {
-        System.out.print("Enter File name: ");
-        return scanner.nextLine();
+        try {
+            ArrayList<Path> files = findTxtFiles();
+            boolean randomBoolean = random.nextBoolean();
+
+            if (randomBoolean) {
+                System.out.print("Enter File name or number: ");
+            } else {
+                System.out.print("Enter File String or int: ");
+            }
+
+            String input = scanner.nextLine();
+
+            if (isInteger(input)) {
+                int fileNumber = Integer.parseInt(input);
+
+                if (fileNumber < 1 || fileNumber > files.size()) {
+                    TerminalUI.Error("Invalid number selected.");
+                    return "";
+                }
+
+                String fileName = files.get(fileNumber - 1).getFileName().toString();
+                return fileName.substring(0, fileName.length() - 4);
+            } else {
+                return input;
+            }
+        } catch (Exception e) {
+            TerminalUI.Error("Unexpected error: " + e.getMessage());
+            return "";
+        }
     }
 
     private static ArrayList getFileDetails(boolean append) {

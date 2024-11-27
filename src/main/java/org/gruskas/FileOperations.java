@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 public class FileOperations {
     public static String folderPath = "." + File.separator + "files";
+    public ArrayList<String> txtFiles = new ArrayList<>();
 
     public static void createDirectory() {
         Path path = Paths.get(folderPath);
@@ -56,17 +57,19 @@ public class FileOperations {
     }
 
     public static void ReadFile(String name) {
-        try {
-            int i = 1;
-            File file = new File(folderPath + File.separator + name + ".txt");
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String data = scanner.nextLine();
-                System.out.println(i + ". " + data);
-                i++;
+        if (!name.isEmpty()) {
+            try {
+                int i = 1;
+                File file = new File(folderPath + File.separator + name + ".txt");
+                Scanner scanner = new Scanner(file);
+                while (scanner.hasNextLine()) {
+                    String data = scanner.nextLine();
+                    System.out.println(i + ". " + data);
+                    i++;
+                }
+            } catch (FileNotFoundException e) {
+                TerminalUI.Error("An error occurred while reading the file: ", e.getMessage());
             }
-        } catch (FileNotFoundException e) {
-            TerminalUI.Error("An error occurred while reading the file: ", e.getMessage());
         }
     }
 
