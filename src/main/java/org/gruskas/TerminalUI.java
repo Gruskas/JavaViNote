@@ -88,4 +88,8 @@ public class TerminalUI {
     public static void warn(String message) {
         System.out.println(ANSI_YELLOW + "[!] WARNING: " + message + ANSI_RESET);
     }
+
+    public static void info(String message) {
+        System.out.println(ANSI_BLUE + "[*] INFO: " + message + ANSI_RESET);
+    }
 }
