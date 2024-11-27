@@ -10,7 +10,7 @@ public class InputHandler {
     static Scanner scanner = new Scanner(System.in);
 
     public static String selectAction() {
-        System.out.print(ANSI_GREEN + "-> " + ANSI_RESET);
+        System.out.print(ANSI_BOLD + ANSI_GREEN + "-> " + ANSI_RESET);
         return scanner.nextLine();
     }
 
@@ -99,7 +99,7 @@ public class InputHandler {
         if (append) {
             System.out.print("Enter a sentence: ");
         } else {
-            TerminalUI.warn("overwrites the contents of the file!");
+            TerminalUI.warn("Overwrites the contents of the file!");
             System.out.print("Enter a sentence: ");
         }
         list.add(scanner.nextLine());

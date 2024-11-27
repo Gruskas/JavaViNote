@@ -2,6 +2,8 @@ package org.gruskas;
 
 import java.io.IOException;
 
+import static org.gruskas.TerminalUI.*;
+
 public class Main {
     public static boolean running = true;
 
@@ -17,7 +19,7 @@ public class Main {
                 InputHandler.Action(action);
             }
         } finally {
-            TerminalUI.Error("Exiting the program.");
+            System.out.println(CYAN_BOLD + "Exiting the program.");
             System.exit(0);
         }
     }

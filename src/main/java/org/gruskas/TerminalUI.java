@@ -9,23 +9,12 @@ import static org.gruskas.FileOperations.findTxtFiles;
 public class TerminalUI {
 
     public static final String ANSI_RESET = "\u001B[0m";
-    public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE = "\u001B[34m";
-    public static final String ANSI_PURPLE = "\u001B[35m";
-    public static final String ANSI_CYAN = "\u001B[36m";
-    public static final String ANSI_WHITE = "\u001B[37m";
-    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
-    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
-    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
-    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
-    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
-    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
-    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
     public static final String ANSI_BOLD = "\u001B[1m";
+    public static final String RED_BRIGHT = "\033[0;91m";    // RED
+    public static final String CYAN_BOLD = "\033[1;36m";   // CYAN
     private static FileOperations KeyHandler;
 
     public static void printBanner() {
@@ -41,7 +30,7 @@ public class TerminalUI {
                  \\$$    $$ \\$$    $$   \\$$$   \\$$    $$   \\$$$   | $$| $$  \\$$$ \\$$    $$  \\$$  $$ \\$$     \\
                   \\$$$$$$   \\$$$$$$$    \\$     \\$$$$$$$    \\$     \\$$ \\$$   \\$$  \\$$$$$$    \\$$$$   \\$$$$$$$
                 
-                %s""", ANSI_RED, ANSI_RESET));
+                %s""", RED_BRIGHT, ANSI_RESET));
     }
 
     public static void showFiles() throws IOException {
