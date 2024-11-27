@@ -47,7 +47,7 @@ public class FileOperations {
             if (file.createNewFile()) {
                 System.out.println("File created: " + file.getName());
             } else {
-                System.out.println("File already exists.");
+                TerminalUI.warn("File already exists.");
             }
         } catch (IOException e) {
             TerminalUI.Error("Error while creating file: " + e.getMessage());

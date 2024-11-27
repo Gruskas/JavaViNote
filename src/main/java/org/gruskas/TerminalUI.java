@@ -77,11 +77,15 @@ public class TerminalUI {
     }
 
     public static void Error(String message) {
-        System.out.println(ANSI_RED + message + ANSI_RESET);
+        System.out.println(ANSI_RED + "[-] ERROR: " + message + ANSI_RESET);
     }
 
     public static void Error(String message, String details) {
         System.out.print(ANSI_RED + message + ANSI_RESET);
         System.out.println(details);
+    }
+
+    public static void warn(String message) {
+        System.out.println(ANSI_YELLOW + "[!] WARNING: " + message + ANSI_RESET);
     }
 }

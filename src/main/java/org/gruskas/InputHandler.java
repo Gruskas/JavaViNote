@@ -47,7 +47,6 @@ public class InputHandler {
             case ":ow":
                 try {
                     boolean append = false;
-                    System.out.print("Enter File name: ");
                     ArrayList<String> details = getFileDetails(append);
                     String fileName = details.get(0);
                     String content = details.get(1);
@@ -85,7 +84,7 @@ public class InputHandler {
                 }
                 break;
             default:
-                TerminalUI.Error("Invalid input");
+                TerminalUI.warn("Invalid input");
         }
     }
 
@@ -96,12 +95,12 @@ public class InputHandler {
 
     private static ArrayList getFileDetails(boolean append) {
         ArrayList<String> list = new ArrayList<>();
-        System.out.print("Enter File name: ");
-        list.add(scanner.nextLine());
+        list.add(getFileName());
         if (append) {
             System.out.print("Enter a sentence: ");
         } else {
-            System.out.print("Enter a sentence(overwrites the contents of the file): ");
+            TerminalUI.warn("overwrites the contents of the file!");
+            System.out.print("Enter a sentence: ");
         }
         list.add(scanner.nextLine());
         return list;
