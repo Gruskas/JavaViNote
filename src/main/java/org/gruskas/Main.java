@@ -8,6 +8,10 @@ public class Main {
     public static boolean windows = ClearTerminal.getOperatingSystem();
 
     public static void main(String[] args) throws IOException {
+        if (args.length > 0) {
+            Arguments.checkArguments(args);
+            System.exit(0);
+        }
         ClearTerminal.clear();
         FileOperations.createDirectory();
         TerminalUI.printBanner();
