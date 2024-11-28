@@ -6,26 +6,24 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Random;
 
-import static org.gruskas.FileOperations.findTxtFiles;
-import static org.gruskas.TerminalUI.*;
-
 public class InputHandler {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
 
     public static String selectAction() {
-        System.out.print(ANSI_BOLD + ANSI_GREEN + "-> " + ANSI_RESET);
+        System.out.print(TerminalUI.ANSI_BOLD + TerminalUI.ANSI_GREEN + "-> " + TerminalUI.ANSI_RESET);
         return scanner.nextLine();
     }
 
     public static void Action(String input) {
+        input = input.replaceAll("\\s", "");
         switch (input) {
             case ":q":
                 Main.running = false;
                 break;
             case ":n":
                 try {
-                    FileOperations.CreateFile(getFileName());
+                    FileOperations.CreateFile(getFileNameC());
                 } catch (IOException e) {
                     TerminalUI.Error("Failed to create file: ", e.getMessage());
                     e.printStackTrace();
@@ -97,14 +95,18 @@ public class InputHandler {
             Integer.parseInt(str);
             return true;
         } catch (NumberFormatException e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
 
+    private static String getFileNameC() {
+        System.out.print("Enter File name: ");
+        return scanner.nextLine();
+    }
+
     private static String getFileName() {
         try {
-            ArrayList<Path> files = findTxtFiles();
+            ArrayList<Path> files = FileOperations.findTxtFiles();
             boolean randomBoolean = random.nextBoolean();
 
             if (randomBoolean) {
@@ -128,6 +130,9 @@ public class InputHandler {
             } else {
                 return input;
             }
+        } catch (NumberFormatException e) {
+            TerminalUI.Error("Invalid input.");
+            return "";
         } catch (Exception e) {
             TerminalUI.Error("Unexpected error: " + e.getMessage());
             return "";

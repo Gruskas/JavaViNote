@@ -46,7 +46,7 @@ public class FileOperations {
         try {
             File file = new File(folderPath + File.separator + name + ".txt");
             if (file.createNewFile()) {
-                System.out.println("File created: " + file.getName());
+                TerminalUI.success("File created: ", file.getName());
             } else {
                 TerminalUI.warn("File already exists.");
             }
@@ -77,7 +77,7 @@ public class FileOperations {
         File file = new File(folderPath + File.separator + name + ".txt");
 //        System.out.println(file.getAbsolutePath());
         if (file.delete()) {
-            System.out.println("The file was successfully deleted: " + file.getName());
+            TerminalUI.success("The file was successfully deleted: ", file.getName());
         } else {
             TerminalUI.Error("This file does not exist");
         }
@@ -91,7 +91,7 @@ public class FileOperations {
             if (lineNumber > 0 && lineNumber <= lines.size()) {
                 lines.remove(lineNumber - 1);
                 Files.write(filePath, lines);
-                System.out.println("Line " + lineNumber + " has been deleted from the file: " + fileName);
+                TerminalUI.success("Line ", lineNumber, " has been deleted from the file: ", fileName);
             } else {
                 TerminalUI.Error("Invalid line number.");
             }

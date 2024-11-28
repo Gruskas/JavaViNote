@@ -1,10 +1,12 @@
 package org.gruskas;
 
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
-import static org.gruskas.FileOperations.findTxtFiles;
 
 public class TerminalUI {
 
@@ -15,6 +17,7 @@ public class TerminalUI {
     public static final String ANSI_BOLD = "\u001B[1m";
     public static final String RED_BRIGHT = "\033[0;91m";
     public static final String CYAN_BOLD = "\033[1;36m";
+    public static final String GREEN_BRIGHT = "\033[0;92m";
 
     public static void printBanner() {
         System.out.println(String.format("""
@@ -33,7 +36,7 @@ public class TerminalUI {
     }
 
     public static void showFiles() throws IOException {
-        ArrayList<Path> files = findTxtFiles();
+        ArrayList<Path> files = FileOperations.findTxtFiles();
         if (files.isEmpty()) {
 //            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
             Error("There are no files.");
@@ -76,4 +79,48 @@ public class TerminalUI {
     public static void warn(String message) {
         System.out.println(ANSI_YELLOW + "[!] WARNING: " + message + ANSI_RESET);
     }
+
+    public static void success(String message) {
+        System.out.println(GREEN_BRIGHT + "[+] SUCCESS: " + message + ANSI_RESET);
+    }
+
+    public static void success(String message, String details) {
+        System.out.print(GREEN_BRIGHT + "[+] SUCCESS: " + message + ANSI_RESET);
+        System.out.println(details);
+    }
+
+    public static void success(String message, int details, String message2, String details2) {
+        System.out.println(GREEN_BRIGHT + "[+] SUCCESS: " + message + ANSI_RESET + details + GREEN_BRIGHT + message2 + ANSI_RESET + details2);
+    }
+
+    public static void positionPrompt(Boolean start) {
+        try {
+            Terminal terminal = TerminalBuilder.terminal();
+
+            int linesToMoveDown = terminal.getHeight() - getLinesCount() - 1;
+
+            if (start) {
+                Main.start = false;
+                for (int i = 0; i < linesToMoveDown-12; i++) {
+                    terminal.writer().println();
+                }
+            } else {
+                for (int i = 0; i < linesToMoveDown-2; i++) {
+                    terminal.writer().println();
+                }
+            }
+
+            terminal.flush();
+
+            terminal.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static int getLinesCount() throws IOException {
+        ArrayList<Path> files = FileOperations.findTxtFiles();
+        return files.size() + 3;
+    }
+
 }

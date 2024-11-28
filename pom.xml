@@ -16,14 +16,13 @@
     <!--        </dependency>-->
     <!--    </dependencies>-->
 
-    <!--    <dependencies>-->
-    <!--        <dependency>-->
-    <!--            <groupId>org.jline</groupId>-->
-    <!--            <artifactId>jline</artifactId>-->
-    <!--            <version>3.22.0</version>-->
-    <!--        </dependency>-->
-    <!--    </dependencies>-->
-
+        <dependencies>
+            <dependency>
+                <groupId>org.jline</groupId>
+                <artifactId>jline</artifactId>
+                <version>3.22.0</version>
+            </dependency>
+        </dependencies>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -74,6 +73,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>org.gruskas.Main</mainClass>
+                </configuration>
             </plugin>
 
         </plugins>
