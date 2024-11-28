@@ -14,4 +14,8 @@ public class ClearTerminal {
             ex.printStackTrace();
         }
     }
+
+    public static Boolean getOperatingSystem() {
+        return System.getProperty("os.name").contains("Windows");
+    }
 }
