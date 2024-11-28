@@ -106,7 +106,7 @@ public class InputHandler {
 
     private static String getFileName() {
         try {
-            ArrayList<Path> files = FileOperations.findTxtFiles();
+            ArrayList<Path> files = FileOperations.txtFiles;
             boolean randomBoolean = random.nextBoolean();
 
             if (randomBoolean) {

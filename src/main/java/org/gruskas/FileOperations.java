@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class FileOperations {
     public static String folderPath = "." + File.separator + "files";
-    public ArrayList<String> txtFiles = new ArrayList<>();
+    public static ArrayList<Path> txtFiles = new ArrayList<>();
 
     public static void createDirectory() {
         Path path = Paths.get(folderPath);
@@ -39,6 +39,7 @@ public class FileOperations {
                     })
                     .forEach(txtFiles::add);
         }
+        FileOperations.txtFiles = txtFiles;
         return txtFiles;
     }
 

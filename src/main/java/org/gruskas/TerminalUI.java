@@ -119,7 +119,7 @@ public class TerminalUI {
     }
 
     private static int getLinesCount() throws IOException {
-        ArrayList<Path> files = FileOperations.findTxtFiles();
+        ArrayList<Path> files = FileOperations.txtFiles;
         return files.size() + 3;
     }
 
