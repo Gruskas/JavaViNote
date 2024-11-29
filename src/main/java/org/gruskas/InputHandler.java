@@ -19,9 +19,11 @@ public class InputHandler {
         input = input.replaceAll("\\s", "");
         switch (input) {
             case ":q":
+            case "quit":
                 Main.running = false;
                 break;
             case ":n":
+            case "newfile":
                 try {
                     FileOperations.CreateFile(getFileNameC());
                 } catch (IOException e) {
@@ -30,9 +32,11 @@ public class InputHandler {
                 }
                 break;
             case ":d":
+            case "del":
                 FileOperations.DeleteFile(getFileName());
                 break;
             case ":dl":
+            case "del-line":
                 try {
                     System.out.print("Enter a line to delete: ");
                     int line = scanner.nextInt();
@@ -44,9 +48,11 @@ public class InputHandler {
                 }
                 break;
             case ":o":
+            case "open":
                 FileOperations.ReadFile(getFileName());
                 break;
             case ":ow":
+            case "overwrite":
                 try {
                     boolean append = false;
                     ArrayList<String> details = getFileDetails(append);
@@ -59,6 +65,7 @@ public class InputHandler {
                 }
                 break;
             case ":a":
+            case "append":
                 try {
                     boolean append = true;
                     ArrayList<String> details = getFileDetails(append);
@@ -70,7 +77,8 @@ public class InputHandler {
                     e.printStackTrace();
                 }
                 break;
-            case ":uf":
+            case ":ul":
+            case "update-line":
                 try {
                     boolean append = true;
                     ArrayList<String> details = getFileDetails(append);
@@ -85,9 +93,26 @@ public class InputHandler {
                     e.printStackTrace();
                 }
                 break;
+            case ":h":
+            case "help":
+                printHelp();
+                break;
             default:
-                TerminalUI.warn("Invalid input");
+                TerminalUI.warn("Invalid input. For help, try 'help'");
         }
+    }
+
+    private static void printHelp() {
+        System.out.println("Available Commands:");
+        System.out.println("    :h, help            - Show this help message.");
+        System.out.println("    :q, quit            - Quit the program.");
+        System.out.println("    :n, newfile         - Create a new file.");
+        System.out.println("    :d, del             - Delete a specified file.");
+        System.out.println("    :dl, del-line       - Delete a specific line from the file.");
+        System.out.println("    :o, open            - Open and read the content of the file.");
+        System.out.println("    :ow, overwrite      - Overwrite the file with new content.");
+        System.out.println("    :a, append          - Append content to the file.");
+        System.out.println("    :ul, update-line    - Update (replace) a specific line in the file.");
     }
 
     private static boolean isInteger(String str) {
