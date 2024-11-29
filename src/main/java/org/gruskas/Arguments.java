@@ -69,7 +69,7 @@ public class Arguments {
                     TerminalUI.printBanner();
                     return;
                 default:
-                    TerminalUI.Error("Unknown argument: " + arg);
+                    TerminalUI.Error("Unknown argument: " + arg + "\nFor help, use --help");
                     break;
             }
         }
@@ -86,5 +86,6 @@ public class Arguments {
         System.out.println("                             Update a specific line in the file with new content.");
         System.out.println("  -a, --append <file> <content>");
         System.out.println("                             Append content to the specified file.");
+        System.out.println("  -b, --banner               Show the program banner.");
     }
 }
