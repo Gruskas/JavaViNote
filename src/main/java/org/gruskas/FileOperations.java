@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class FileOperations {
@@ -34,13 +36,26 @@ public class FileOperations {
 
         if (Files.exists(path)) {
             Files.walk(path)
-                    .filter(x -> {
-                        return x.toString().endsWith(".txt");
-                    })
+                    .filter(x -> x.toString().endsWith(".txt"))
                     .forEach(txtFiles::add);
         }
         FileOperations.txtFiles = txtFiles;
         return txtFiles;
+    }
+
+    public static ArrayList<String> getLastModifiedDates(ArrayList<Path> txtFiles) {
+        ArrayList<String> lastModifiedDates = new ArrayList<>();
+        SimpleDateFormat lastModifiedDate = new SimpleDateFormat("yyyy-MM-dd  HH:mm");
+
+        for (Path file : txtFiles) {
+            try {
+                long lastModified = Files.getLastModifiedTime(file).toMillis();
+                lastModifiedDates.add(lastModifiedDate.format(new Date(lastModified)));
+            } catch (Exception e) {
+                lastModifiedDates.add("Error");
+            }
+        }
+        return lastModifiedDates;
     }
 
     public static void CreateFile(String name) throws IOException {

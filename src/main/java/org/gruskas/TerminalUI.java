@@ -52,18 +52,20 @@ public class TerminalUI {
                 }
             }
 
-            longest = Math.max(longest, 10) + 6;
-            String HeightLine = " ".repeat(longest);
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
-            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " |" + ANSI_RESET);
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+            ArrayList<String> lastModifiedDates = FileOperations.getLastModifiedDates(files);
+            longest = Math.max(longest, 10) + 7;
 
-            for (Path file : files) {
-                String fileName = file.getFileName().toString();
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+");
+            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "Last Modification" + ANSI_RESET + ANSI_RED + " |");
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+");
+
+            for (int i = 0; i < files.size(); i++) {
+                String fileName = files.get(i).getFileName().toString();
                 fileName = fileName.substring(0, fileName.length() - 4);
-                System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(longest - fileName.length() - 7) + ANSI_RED + " |" + ANSI_RESET);
+                String lastModified = lastModifiedDates.get(i);
+                System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(Math.max(0, longest - fileName.length() - 7)) + ANSI_RED + " | " + ANSI_RESET + lastModified + ANSI_RED + " |" + ANSI_RESET);
             }
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest) + "+" + ANSI_RESET);
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+" + ANSI_RESET);
         }
     }
 
@@ -101,11 +103,11 @@ public class TerminalUI {
 
             if (start) {
                 Main.start = false;
-                for (int i = 0; i < linesToMoveDown-12; i++) {
+                for (int i = 0; i < linesToMoveDown - 12; i++) {
                     terminal.writer().println();
                 }
             } else {
-                for (int i = 0; i < linesToMoveDown-2; i++) {
+                for (int i = 0; i < linesToMoveDown - 2; i++) {
                     terminal.writer().println();
                 }
             }
