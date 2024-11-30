@@ -26,7 +26,7 @@ public class Main {
                 InputHandler.Action(action);
             }
         } finally {
-            System.out.println(TerminalUI.CYAN_BOLD + "Exiting the program.");
+            System.out.println(TerminalUI.CYAN_BOLD + "Exiting the program." + TerminalUI.ANSI_RESET);
             System.exit(0);
         }
     }
