@@ -12,10 +12,9 @@ import java.util.Scanner;
 
 public class ArgumentsEditor {
     public static void ReadFile(String path) {
-        try {
+        File file = new File(path);
+        try (Scanner scanner = new Scanner(file)) {
             int i = 1;
-            File file = new File(path);
-            Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String data = scanner.nextLine();
                 System.out.println(i + ". " + data);
@@ -46,7 +45,7 @@ public class ArgumentsEditor {
                 String formattedDate = FileOperations.DateTimeNow();
                 lines.set(lineNumber - 1, newContent + " | " + formattedDate);
                 Files.write(filePath, lines);
-               System.out.println("Line " + lineNumber + " has been updated in the file: " + path);
+                System.out.println("Line " + lineNumber + " has been updated in the file: " + path);
             } else {
                 TerminalUI.Error("Invalid line number.");
             }
@@ -56,12 +55,9 @@ public class ArgumentsEditor {
     }
 
     public static void WriteToFile(String path, String content, Boolean append) {
-        try {
+        try (FileWriter Writer = new FileWriter(path, append)) {
             String formattedDate = FileOperations.DateTimeNow();
-            FileWriter Writer = new FileWriter(path, append);
-
             Writer.write(content + " | " + formattedDate + System.lineSeparator());
-            Writer.close();
         } catch (IOException e) {
             TerminalUI.Error("An error occurred while writing to the file: ", e.getMessage());
         }

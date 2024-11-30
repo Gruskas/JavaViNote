@@ -96,8 +96,7 @@ public class TerminalUI {
     }
 
     public static void positionPrompt(Boolean start) {
-        try {
-            Terminal terminal = TerminalBuilder.terminal();
+        try (Terminal terminal = TerminalBuilder.terminal()) {
 
             int linesToMoveDown = terminal.getHeight() - getLinesCount() - 1;
 
@@ -113,8 +112,6 @@ public class TerminalUI {
             }
 
             terminal.flush();
-
-            terminal.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

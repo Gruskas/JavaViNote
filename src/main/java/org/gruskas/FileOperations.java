@@ -74,10 +74,9 @@ public class FileOperations {
 
     public static void ReadFile(String name) {
         if (!name.isEmpty()) {
-            try {
+            File file = new File(folderPath + File.separator + name + ".txt");
+            try (Scanner scanner = new Scanner(file)) {
                 int i = 1;
-                File file = new File(folderPath + File.separator + name + ".txt");
-                Scanner scanner = new Scanner(file);
                 while (scanner.hasNextLine()) {
                     String data = scanner.nextLine();
                     System.out.println(i + ". " + data);
@@ -135,12 +134,9 @@ public class FileOperations {
     }
 
     public static void WriteToFile(String name, String content, Boolean append) {
-        try {
+        try (FileWriter Writer = new FileWriter(folderPath + File.separator + name + ".txt", append)) {
             String formattedDate = DateTimeNow();
-            FileWriter Writer = new FileWriter(folderPath + File.separator + name + ".txt", append);
-
             Writer.write(content + " | " + formattedDate + System.lineSeparator());
-            Writer.close();
         } catch (IOException e) {
             TerminalUI.Error("An error occurred while writing to the file: ", e.getMessage());
         }
