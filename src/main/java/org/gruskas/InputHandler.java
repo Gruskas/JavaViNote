@@ -107,17 +107,19 @@ public class InputHandler {
     }
 
     private static void printHelp() {
-        System.out.println("Available Commands:");
-        System.out.println("    :h, help            - Show this help message.");
-        System.out.println("    :q, quit            - Quit the program.");
-        System.out.println("    :n, newfile         - Create a new file.");
-        System.out.println("    :d, del             - Delete a specified file.");
-        System.out.println("    :dl, del-line       - Delete a specific line from the file.");
-        System.out.println("    :o, open            - Open and read the content of the file.");
-        System.out.println("    :ow, overwrite      - Overwrite the file with new content.");
-        System.out.println("    :a, append          - Append content to the file.");
-        System.out.println("    :ul, update-line    - Update (replace) a specific line in the file.");
-        System.out.println("    :r, rename          - Rename the specified file.");
+        System.out.println("""
+                Available Commands:
+                    :h,     help            - Show this help message.
+                    :q,     quit            - Quit the program.
+                    :n,     newfile         - Create a new file.
+                    :d,     del             - Delete a specified file.
+                    :dl,    del-line        - Delete a specific line from the file.
+                    :o,     open            - Open and read the content of the file.
+                    :ow,    overwrite       - Overwrite the file with new content.
+                    :a,     append          - Append content to the file.
+                    :ul,    update-line     - Update (replace) a specific line in the file.
+                    :r,     rename          - Rename the specified file.
+                """);
     }
 
     private static boolean isInteger(String str) {

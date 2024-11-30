@@ -76,16 +76,18 @@ public class Arguments {
     }
 
     private static void printHelp() {
-        System.out.println("Usage: java -jar JavaViNote-1.0-SNAPSHOT.jar [options]");
-        System.out.println("Options:");
-        System.out.println("  -h, --help                 Show this help message.");
-        System.out.println("  -f, --file <filename>      Open the specified file.");
-        System.out.println("  -o, --open <filename>      Open the specified file (alias for -f).");
-        System.out.println("  -d, --delete <filename>    Delete the specified file.");
-        System.out.println("  -ul, --update-line <file> <line> <newContent>");
-        System.out.println("                             Update a specific line in the file with new content.");
-        System.out.println("  -a, --append <file> <content>");
-        System.out.println("                             Append content to the specified file.");
-        System.out.println("  -b, --banner               Show the program banner.");
+        System.out.println("""
+                Usage: java -jar JavaViNote-1.0-SNAPSHOT.jar [options]
+                Options:
+                    -h, --help                 Show this help message.
+                    -f, --file <filename>      Open the specified file.
+                    -o, --open <filename>      Open the specified file (alias for -f).
+                    -d, --delete <filename>    Delete the specified file.
+                    -ul, --update-line <file> <line> <newContent>
+                                             Update a specific line in the file with new content.
+                    -a, --append <file> <content>
+                                             Append content to the specified file.
+                    -b, --banner               Show the program banner.
+                """);
     }
 }
