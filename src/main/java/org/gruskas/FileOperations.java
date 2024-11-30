@@ -142,6 +142,18 @@ public class FileOperations {
         }
     }
 
+    public static void RenameFile(String oldName, String newName) {
+        Path oldPath = Paths.get(folderPath + File.separator + oldName + ".txt");
+        Path newPath = Paths.get(folderPath + File.separator + newName + ".txt");
+
+        try {
+            Files.move(oldPath, newPath);
+            TerminalUI.success("File successfully renamed.");
+        } catch (IOException e) {
+            TerminalUI.Error("Failed to rename file: ", e.getMessage());
+        }
+    }
+
     public static String DateTimeNow() {
         LocalDateTime DateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

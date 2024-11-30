@@ -93,6 +93,10 @@ public class InputHandler {
                     e.printStackTrace();
                 }
                 break;
+            case ":r":
+            case "rename":
+                FileOperations.RenameFile(getFileName(), getFileNameC());
+                break;
             case ":h":
             case "help":
                 printHelp();
@@ -113,6 +117,7 @@ public class InputHandler {
         System.out.println("    :ow, overwrite      - Overwrite the file with new content.");
         System.out.println("    :a, append          - Append content to the file.");
         System.out.println("    :ul, update-line    - Update (replace) a specific line in the file.");
+        System.out.println("    :r, rename          - Rename the specified file.");
     }
 
     private static boolean isInteger(String str) {
