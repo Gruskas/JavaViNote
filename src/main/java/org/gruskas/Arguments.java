@@ -8,104 +8,113 @@ public class Arguments {
             switch (arg) {
                 case "-h":
                 case "--help":
-                    printHelp();
+                    helpArgument();
                     return;
                 case "-f":
                 case "-o":
                 case "--file":
                 case "--open":
-                    if (i + 1 < args.length) {
-//                        System.out.println(args[i + 1]);
-                        i++;
-                        ArgumentsEditor.ReadFile(args[i]);
-
-                    } else {
-                        TerminalUI.Error("Missing file name after " + arg);
-                    }
+                    fileArgument(i, args);
+                    i += 1;
                     break;
                 case "-d":
                 case "--delate":
-                    if (i + 1 < args.length) {
-//                        System.out.println(args[i + 1]);
-                        i++;
-                        ArgumentsEditor.DeleteFile(args[i]);
-
-                    } else {
-                        TerminalUI.Error("Missing file name after " + arg);
-                    }
+                    deleteArgument(i, args);
+                    i += 1;
                     break;
                 case "-ul":
                 case "--update-line":
-                    if (i + 1 < args.length) {
-//                        System.out.println(args[i + 1]);
-                        i++;
-                        String path = args[i];
-                        i++;
-                        int line = Integer.parseInt(args[i]);
-                        System.out.println(line);
-                        i++;
-                        String newContent = args[i];
-                        i++;
-                        ArgumentsEditor.UpdateLine(path, line, newContent);
-                    } else {
-                        TerminalUI.Error("Missing file name after " + arg);
-                    }
+                    updateLineArgument(i, args);
+                    i += 3;
                     break;
                 case "-a":
                 case "--append":
-                    if (i + 1 < args.length) {
-                        i++;
-                        String path = args[i];
-                        i++;
-                        String newContent = args[i];
-                        i++;
-                        ArgumentsEditor.WriteToFile(path, newContent, true);
-                    } else {
-                        TerminalUI.Error("Missing file name after " + arg);
-                    }
+                    appendArgument(i, args);
+                    i += 2;
                     break;
                 case "-b":
                 case "--banner":
                     TerminalUI.printBanner();
-                    return;
+                    break;
                 case "-e":
                 case "--encrypt":
-                    if (i + 3 < args.length) {
-                        i++;
-                        String password = args[i];
-                        i++;
-                        String input = args[i];
-                        i++;
-                        String output = args[i];
-                        i++;
-                        Encrypt.encryptFile(password, input, output);
-                    } else {
-                        TerminalUI.Error(arg);
-                    }
+                    encryptArgument(i, args);
+                    i += 3;
                     break;
                 case "-de":
                 case "--decrypt":
-                    if (i + 3 < args.length) {
-                        i++;
-                        String password2 = args[i];
-                        i++;
-                        String input2 = args[i];
-                        i++;
-                        String output2 = args[i];
-                        i++;
-                        Encrypt.decryptFile(password2, input2, output2);
-                    } else {
-                        TerminalUI.Error(arg);
-                    }
+                    decryptArgument(i, args);
+                    i += 3;
                     break;
                 default:
                     TerminalUI.Error("Unknown argument: " + arg + "\nFor help, use --help");
-                    break;
+                    return;
             }
         }
     }
 
-    private static void printHelp() {
+    private static void fileArgument(int i, String[] args) {
+        if (i + 1 < args.length) {
+            i++;
+            ArgumentsEditor.ReadFile(args[i]);
+        } else {
+            TerminalUI.Error("Missing file name after argument.");
+        }
+    }
+
+    private static void deleteArgument(int i, String[] args) {
+        if (i + 1 < args.length) {
+            i++;
+            ArgumentsEditor.DeleteFile(args[i]);
+        } else {
+            TerminalUI.Error("Missing file name after argument.");
+        }
+    }
+
+    private static void updateLineArgument(int i, String[] args) {
+        if (i + 3 < args.length) {
+            String path = args[++i];
+            int line = Integer.parseInt(args[++i]);
+            String newContent = args[++i];
+            ArgumentsEditor.UpdateLine(path, line, newContent);
+        } else {
+            TerminalUI.Error("Missing arguments for update-line. Usage: --update-line <file> <line> <newContent>");
+        }
+    }
+
+    private static void appendArgument(int i, String[] args) {
+        if (i + 2 < args.length) {
+            String path = args[++i];
+            String newContent = args[++i];
+            ArgumentsEditor.WriteToFile(path, newContent, true);
+        } else {
+            TerminalUI.Error("Missing arguments for append. Usage: --append <file> <content>");
+        }
+    }
+
+    private static void encryptArgument(int i, String[] args) {
+        if (i + 3 < args.length) {
+            String password = args[++i];
+            String inputFile = args[++i];
+            String outputFile = args[++i];
+            Encrypt.encryptFile(password, inputFile, outputFile);
+        } else {
+            TerminalUI.Error("Missing arguments for encrypt. Usage: --encrypt <password> <input-file> <output-file>");
+        }
+    }
+
+    private static void decryptArgument(int i, String[] args) {
+        if (i + 3 < args.length) {
+            String password = args[++i];
+            String inputFile = args[++i];
+            String outputFile = args[++i];
+            Encrypt.decryptFile(password, inputFile, outputFile);
+        } else {
+            TerminalUI.Error("Missing arguments for decrypt. Usage: --decrypt <password> <input-file> <output-file>");
+        }
+    }
+
+    private static void helpArgument() {
         System.out.println("""
                 Usage: java -jar JavaViNote-1.0-SNAPSHOT.jar [options]
                 Options:

@@ -11,7 +11,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Encrypt {
-    public static SecretKeySpec createAESKey(String password) throws NoSuchAlgorithmException {
+    private static SecretKeySpec createAESKey(String password) throws NoSuchAlgorithmException {
         MessageDigest sha = MessageDigest.getInstance("SHA-256");
         byte[] key = sha.digest(password.getBytes());
         return new SecretKeySpec(key, "AES");
@@ -23,8 +23,7 @@ public class Encrypt {
             outputFile = outputFile.replaceAll("^\"|\"$|\\\\", "/");
             File input = new File(inputFile);
             if (!input.exists()) {
-                System.out.println("The input file does not exist.");
-                System.out.println(input.getAbsolutePath());
+                TerminalUI.Error("The input file does not exist: ", input.getAbsolutePath());
                 return;
             }
 
@@ -56,8 +55,7 @@ public class Encrypt {
             outputFile = outputFile.replaceAll("^\"|\"$|\\\\", "/");
             File input = new File(inputFile);
             if (!input.exists()) {
-                System.out.println("The input file does not exist.");
-                System.out.println(input.getAbsolutePath());
+                TerminalUI.Error("The input file does not exist: ", input.getAbsolutePath());
                 return;
             }
 
