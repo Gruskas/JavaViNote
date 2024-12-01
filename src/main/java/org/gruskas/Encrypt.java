@@ -41,7 +41,7 @@ public class Encrypt {
                     cipherOutputStream.write(buffer, 0, bytesRead);
                 }
 
-                System.out.println("File encrypted successfully!");
+                TerminalUI.success("File encrypted successfully!");
             }
 
         } catch (Exception e) {
@@ -78,10 +78,6 @@ public class Encrypt {
 
         } catch (Exception e) {
             TerminalUI.Error("Invalid Password");
-            File output = new File(outputFile);
-            if (output.exists()) {
-                output.delete();
-            }
         }
     }
 }
