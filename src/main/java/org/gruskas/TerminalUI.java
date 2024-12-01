@@ -65,10 +65,10 @@ public class TerminalUI {
                 String fileName = files.get(i).getFileName().toString();
                 if (fileName.endsWith(".txt")) {
                     fileName = fileName.substring(0, fileName.length() - 4);
-                    encryption = "    ✗     ";
+                    encryption = "    NO    ";
                 } else {
                     fileName = fileName.substring(0, fileName.length() - 8);
-                    encryption = "    ✓     ";
+                    encryption = "    YES   ";
                 }
                 String lastModified = lastModifiedDates.get(i);
                 System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(Math.max(0, longest - fileName.length() - 7)) + ANSI_RED + " | " + ANSI_RESET + lastModified + ANSI_RED + " | " + ANSI_RESET + encryption + ANSI_RED + " |");

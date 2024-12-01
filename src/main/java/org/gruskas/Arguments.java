@@ -55,8 +55,7 @@ public class Arguments {
 
     private static void fileArgument(int i, String[] args) {
         if (i + 1 < args.length) {
-            i++;
-            ArgumentsEditor.ReadFile(args[i]);
+            ArgumentsEditor.ReadFile(args[++i]);
         } else {
             TerminalUI.Error("Missing file name after argument.");
         }
@@ -64,8 +63,7 @@ public class Arguments {
 
     private static void deleteArgument(int i, String[] args) {
         if (i + 1 < args.length) {
-            i++;
-            ArgumentsEditor.DeleteFile(args[i]);
+            ArgumentsEditor.DeleteFile(args[++i]);
         } else {
             TerminalUI.Error("Missing file name after argument.");
         }
