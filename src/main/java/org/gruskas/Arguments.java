@@ -68,6 +68,36 @@ public class Arguments {
                 case "--banner":
                     TerminalUI.printBanner();
                     return;
+                case "-e":
+                case "--encrypt":
+                    if (i + 3 < args.length) {
+                        i++;
+                        String password = args[i];
+                        i++;
+                        String input = args[i];
+                        i++;
+                        String output = args[i];
+                        i++;
+                        Encrypt.encryptFile(password, input, output);
+                    } else {
+                        TerminalUI.Error(arg);
+                    }
+                    break;
+                case "-de":
+                case "--decrypt":
+                    if (i + 3 < args.length) {
+                        i++;
+                        String password2 = args[i];
+                        i++;
+                        String input2 = args[i];
+                        i++;
+                        String output2 = args[i];
+                        i++;
+                        Encrypt.decryptFile(password2, input2, output2);
+                    } else {
+                        TerminalUI.Error(arg);
+                    }
+                    break;
                 default:
                     TerminalUI.Error("Unknown argument: " + arg + "\nFor help, use --help");
                     break;
@@ -88,6 +118,10 @@ public class Arguments {
                     -a, --append <file> <content>
                                              Append content to the specified file.
                     -b, --banner               Show the program banner.
+                    -e, --encrypt <password> <input-file> <output-file>
+                                             Encrypt the specified file.
+                    -de, --decrypt <password> <input-file> <output-file>
+                                             Decrypt the specified file.
                 """);
     }
 }
