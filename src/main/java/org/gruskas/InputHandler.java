@@ -101,6 +101,14 @@ public class InputHandler {
             case "help":
                 printHelp();
                 break;
+            case ":e":
+            case "encrypt":
+                FileOperations.encryptFile(getFileName(), getPassword());
+                break;
+            case ":de":
+            case "decrypt":
+                FileOperations.decryptFile(getFileName(), getPassword());
+                break;
             default:
                 TerminalUI.warn("Invalid input. For help, try 'help'");
         }
@@ -119,6 +127,8 @@ public class InputHandler {
                     :a,     append          - Append content to the file.
                     :ul,    update-line     - Update (replace) a specific line in the file.
                     :r,     rename          - Rename the specified file.
+                    :e,     encrypt         - Encrypt the specified file.
+                    :de,    decrypt         - Decrypt the specified file.
                 """);
     }
 
@@ -133,6 +143,11 @@ public class InputHandler {
 
     private static String getFileNameC() {
         System.out.print("Enter File name: ");
+        return scanner.nextLine();
+    }
+
+    private static String getPassword() {
+        System.out.print("Enter Password: ");
         return scanner.nextLine();
     }
 
@@ -158,7 +173,12 @@ public class InputHandler {
                 }
 
                 String fileName = files.get(fileNumber - 1).getFileName().toString();
-                return fileName.substring(0, fileName.length() - 4);
+
+                if (fileName.endsWith(".txt")) {
+                    return fileName.substring(0, fileName.length() - 4);
+                } else {
+                    return fileName.substring(0, fileName.length() - 8);
+                }
             } else {
                 return input;
             }

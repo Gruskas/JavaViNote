@@ -36,7 +36,7 @@ public class FileOperations {
 
         if (Files.exists(path)) {
             Files.walk(path)
-                    .filter(x -> x.toString().endsWith(".txt"))
+                    .filter(x -> x.toString().endsWith(".txt") || x.toString().endsWith(".txt.enc"))
                     .forEach(txtFiles::add);
         }
         FileOperations.txtFiles = txtFiles;
@@ -73,6 +73,10 @@ public class FileOperations {
     }
 
     public static void ReadFile(String name) {
+        if (isEncrypted(name)) {
+            TerminalUI.Error("Cannot open an encrypted file. Please decrypt it first.");
+            return;
+        }
         if (!name.isEmpty()) {
             File file = new File(folderPath + File.separator + name + ".txt");
             try (Scanner scanner = new Scanner(file)) {
@@ -90,7 +94,11 @@ public class FileOperations {
 
     public static void DeleteFile(String name) {
         File file = new File(folderPath + File.separator + name + ".txt");
-//        System.out.println(file.getAbsolutePath());
+        File encFile = new File(folderPath + File.separator + name + ".txt.enc");
+        if (encFile.exists()) {
+            file = encFile;
+        }
+
         if (file.delete()) {
             TerminalUI.success("The file was successfully deleted: ", file.getName());
         } else {
@@ -99,6 +107,10 @@ public class FileOperations {
     }
 
     public static void DeleteLine(String fileName, int lineNumber) {
+        if (isEncrypted(fileName)) {
+            TerminalUI.Error("Cannot modify an encrypted file. Please decrypt it first.");
+            return;
+        }
         Path filePath = Paths.get(folderPath + File.separator + fileName + ".txt");
         try {
             ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(filePath);
@@ -116,6 +128,10 @@ public class FileOperations {
     }
 
     public static void UpdateLine(String fileName, int lineNumber, String newContent) {
+        if (isEncrypted(fileName)) {
+            TerminalUI.Error("Cannot modify an encrypted file. Please decrypt it first.");
+            return;
+        }
         Path filePath = Paths.get(folderPath + File.separator + fileName + ".txt");
         try {
             ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(filePath);
@@ -134,6 +150,10 @@ public class FileOperations {
     }
 
     public static void WriteToFile(String name, String content, Boolean append) {
+        if (isEncrypted(name)) {
+            TerminalUI.Error("Cannot modify an encrypted file. Please decrypt it first.");
+            return;
+        }
         try (FileWriter Writer = new FileWriter(folderPath + File.separator + name + ".txt", append)) {
             String formattedDate = DateTimeNow();
             Writer.write(content + " | " + formattedDate + System.lineSeparator());
@@ -143,6 +163,10 @@ public class FileOperations {
     }
 
     public static void RenameFile(String oldName, String newName) {
+        if (isEncrypted(oldName)) {
+            TerminalUI.Error("Cannot modify an encrypted file. Please decrypt it first.");
+            return;
+        }
         Path oldPath = Paths.get(folderPath + File.separator + oldName + ".txt");
         Path newPath = Paths.get(folderPath + File.separator + newName + ".txt");
 
@@ -154,9 +178,45 @@ public class FileOperations {
         }
     }
 
+    public static void encryptFile(String fileName, String password) {
+        Path oldPath = Paths.get(folderPath + File.separator + fileName + ".txt");
+        Path newPath = Paths.get(folderPath + File.separator + fileName + ".txt.enc");
+
+        String oldPathString = oldPath.toString();
+        String newPathString = newPath.toString();
+
+        try {
+            Encrypt.encryptFile(password, oldPathString, newPathString);
+            Files.delete(oldPath);
+        } catch (IOException e) {
+            TerminalUI.Error("Error: ", e.getMessage());
+        }
+    }
+
+    public static void decryptFile(String fileName, String password) {
+        System.out.println(fileName);
+        Path oldPath = Paths.get(folderPath + File.separator + fileName + ".txt.enc");
+        Path newPath = Paths.get(folderPath + File.separator + fileName + ".txt");
+
+        String oldPathString = oldPath.toString();
+        String newPathString = newPath.toString();
+
+        try {
+            Encrypt.decryptFile(password, oldPathString, newPathString);
+            Files.delete(oldPath);
+        } catch (IOException e) {
+            TerminalUI.Error("Error: ", e.getMessage());
+        }
+    }
+
     public static String DateTimeNow() {
         LocalDateTime DateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return formatter.format(DateTime);
+    }
+
+    private static boolean isEncrypted(String fileName) {
+        Path file = Paths.get(folderPath + File.separator + fileName + ".txt.enc");
+        return Files.exists(file) && file.toString().endsWith(".txt.enc");
     }
 }

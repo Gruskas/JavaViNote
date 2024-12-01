@@ -22,9 +22,9 @@ public class TerminalUI {
     public static void printBanner() {
         System.out.println(String.format("""
                 %s
-                    _____                              __     __  __  __    __             __              
-                   |     \\                            |  \\   |  \\|  \\|  \\  |  \\           |  \\             
-                    \\$$$$$  ______  __     __  ______ | $$   | $$ \\$$| $$\\ | $$  ______  _| $$_     ______ 
+                    _____                              __     __  __  __    __             __
+                   |     \\                            |  \\   |  \\|  \\|  \\  |  \\           |  \\
+                    \\$$$$$  ______  __     __  ______ | $$   | $$ \\$$| $$\\ | $$  ______  _| $$_     ______
                       | $$ |      \\|  \\   /  \\|      \\| $$   | $$|  \\| $$$\\| $$ /      \\|   $$ \\   /      \\
                  __   | $$  \\$$$$$$\\\\$$\\ /  $$ \\$$$$$$\\\\$$\\ /  $$| $$| $$$$\\ $$|  $$$$$$\\\\$$$$$$  |  $$$$$$\\
                 |  \\  | $$ /      $$ \\$$\\  $$ /      $$ \\$$\\  $$ | $$| $$\\$$ $$| $$  | $$ | $$ __ | $$    $$
@@ -37,6 +37,8 @@ public class TerminalUI {
 
     public static void showFiles() throws IOException {
         ArrayList<Path> files = FileOperations.findTxtFiles();
+        String encryption;
+
         if (files.isEmpty()) {
 //            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
             Error("There are no files.");
@@ -55,17 +57,23 @@ public class TerminalUI {
             ArrayList<String> lastModifiedDates = FileOperations.getLastModifiedDates(files);
             longest = Math.max(longest, 10) + 7;
 
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+");
-            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "Last Modification" + ANSI_RESET + ANSI_RED + " |");
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+");
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 33) + "+");
+            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Nr" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "File Name" + ANSI_RESET + " ".repeat(longest - 16) + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "Last Modification" + ANSI_RESET + ANSI_RED + " | " + ANSI_RESET + ANSI_BOLD + "Encryption" + ANSI_RESET + ANSI_RED + " |" );
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 33) + "+");
 
             for (int i = 0; i < files.size(); i++) {
                 String fileName = files.get(i).getFileName().toString();
-                fileName = fileName.substring(0, fileName.length() - 4);
+                if (fileName.endsWith(".txt")) {
+                    fileName = fileName.substring(0, fileName.length() - 4);
+                    encryption = "    ✗     ";
+                } else {
+                    fileName = fileName.substring(0, fileName.length() - 8);
+                    encryption = "    ✓     ";
+                }
                 String lastModified = lastModifiedDates.get(i);
-                System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(Math.max(0, longest - fileName.length() - 7)) + ANSI_RED + " | " + ANSI_RESET + lastModified + ANSI_RED + " |" + ANSI_RESET);
+                System.out.println(ANSI_RED + "| " + ANSI_RESET + index++ + ANSI_RED + "  | " + ANSI_RESET + fileName + " ".repeat(Math.max(0, longest - fileName.length() - 7)) + ANSI_RED + " | " + ANSI_RESET + lastModified + ANSI_RED + " | " + ANSI_RESET + encryption + ANSI_RED + " |");
             }
-            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 20) + "+" + ANSI_RESET);
+            System.out.println(ANSI_RED + "+" + "-".repeat(longest + 33) + "+" + ANSI_RESET);
         }
     }
 
