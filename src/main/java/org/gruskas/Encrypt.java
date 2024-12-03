@@ -17,14 +17,14 @@ public class Encrypt {
         return new SecretKeySpec(key, "AES");
     }
 
-    public static void encryptFile(String password, String inputFile, String outputFile) {
+    public static boolean encryptFile(String password, String inputFile, String outputFile) {
         try {
             inputFile = inputFile.replaceAll("^\"|\"$|\\\\", "/");
             outputFile = outputFile.replaceAll("^\"|\"$|\\\\", "/");
             File input = new File(inputFile);
             if (!input.exists()) {
                 TerminalUI.Error("The input file does not exist: ", input.getAbsolutePath());
-                return;
+                return false;
             }
 
             SecretKeySpec key = createAESKey(password);
@@ -42,21 +42,23 @@ public class Encrypt {
                 }
 
                 TerminalUI.success("File encrypted successfully!");
+                return true;
             }
 
         } catch (Exception e) {
             TerminalUI.Error("Error while encrypting file: " + e.getMessage());
         }
+        return false;
     }
 
-    public static void decryptFile(String password, String inputFile, String outputFile) {
+    public static boolean decryptFile(String password, String inputFile, String outputFile) {
         try {
             inputFile = inputFile.replaceAll("^\"|\"$|\\\\", "/");
             outputFile = outputFile.replaceAll("^\"|\"$|\\\\", "/");
             File input = new File(inputFile);
             if (!input.exists()) {
                 TerminalUI.Error("The input file does not exist: ", input.getAbsolutePath());
-                return;
+                return false;
             }
 
             SecretKeySpec key = createAESKey(password);
@@ -74,10 +76,12 @@ public class Encrypt {
                 }
 
                 TerminalUI.success("File decrypted successfully");
+                return true;
             }
 
         } catch (Exception e) {
             TerminalUI.Error("Invalid Password");
         }
+        return false;
     }
 }

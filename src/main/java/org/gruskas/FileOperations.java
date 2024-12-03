@@ -186,8 +186,10 @@ public class FileOperations {
         String newPathString = newPath.toString();
 
         try {
-            Encrypt.encryptFile(password, oldPathString, newPathString);
-            Files.delete(oldPath);
+            if (Encrypt.encryptFile(password, oldPathString, newPathString)) {
+                Files.delete(oldPath);
+            }
+
         } catch (IOException e) {
             TerminalUI.Error("Error: ", e.getMessage());
         }
@@ -202,8 +204,11 @@ public class FileOperations {
         String newPathString = newPath.toString();
 
         try {
-            Encrypt.decryptFile(password, oldPathString, newPathString);
-            Files.delete(oldPath);
+            if (Encrypt.decryptFile(password, oldPathString, newPathString)) {
+                Files.delete(oldPath);
+            } else {
+                Files.delete(newPath);
+            }
         } catch (IOException e) {
             TerminalUI.Error("Error: ", e.getMessage());
         }
