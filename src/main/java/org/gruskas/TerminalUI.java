@@ -40,7 +40,6 @@ public class TerminalUI {
         String encryption;
 
         if (files.isEmpty()) {
-//            System.out.println(ANSI_RED + "There are no files." + ANSI_RESET);
             Error("There are no files.");
         } else {
             int index = 1;

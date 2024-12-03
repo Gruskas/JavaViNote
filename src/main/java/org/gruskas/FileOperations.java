@@ -82,8 +82,8 @@ public class FileOperations {
             try (Scanner scanner = new Scanner(file)) {
                 int i = 1;
                 while (scanner.hasNextLine()) {
-                    String data = scanner.nextLine();
-                    System.out.println(i + ". " + data);
+                    String content = scanner.nextLine();
+                    System.out.println(i + ". " + content);
                     i++;
                 }
             } catch (FileNotFoundException e) {
