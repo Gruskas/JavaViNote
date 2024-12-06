@@ -138,6 +138,7 @@ public class InputHandler {
                     :r,     rename          - Rename the specified file.
                     :e,     encrypt         - Encrypt the specified file.
                     :de,    decrypt         - Decrypt the specified file.
+                    :em,    editmode        - Enter an interactive editing mode for the specified file.
                 """);
     }
 

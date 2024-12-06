@@ -143,6 +143,8 @@ public class Arguments {
                                              Encrypt the specified file.
                     -de, --decrypt <password> <input-file> <output-file>
                                              Decrypt the specified file.
+                    -em, --editmode <input-file>
+                                             Enter an interactive editing mode for the specified file.
                 """);
     }
 }
