@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import static org.gruskas.TerminalUI.*;
 
-public class EditMode extends InputHandler {
+public class EditMode {
     private static final Scanner scanner = new Scanner(System.in);
     public static boolean running = false;
     public static ArrayList<String> content = new ArrayList<>();
@@ -19,18 +19,18 @@ public class EditMode extends InputHandler {
     private static File file = null;
 
     public static void editMode(String inputFile) {
-        File file = new File(inputFile);
-        EditMode.file = file;
+        EditMode.file = new File(inputFile);
         try {
             readFile();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        oldContent = content;
+        oldContent = new ArrayList<>(content);
         while (running) {
             ClearTerminal.clear();
             showFile();
-            System.out.println(ANSI_YELLOW + "Actions: [q] Quit [e] Edit Line [a] Add Line [d] Delete Line [w] Save [wq] Write And Quit [c] Clear");
+            System.out.println(ANSI_YELLOW + "Actions: [q] Quit [e] Edit Line [a] Add Line [d] Delete Line [w] Save [wq] Write And Quit [c] Clear [sd] Show Differences");
+//            System.out.println(oldContent);
 //            System.out.println(content);
             String input = InputHandler.selectAction();
             action(input);
@@ -110,6 +110,9 @@ public class EditMode extends InputHandler {
             case "wq":
                 WriteToFile(true);
                 break;
+            case "sd":
+                showDifferences();
+                break;
             case "e":
                 int lineToReplace = Integer.parseInt(scanner.nextLine());
                 String newContent2 = scanner.nextLine();
@@ -147,5 +150,23 @@ public class EditMode extends InputHandler {
         } catch (IOException e) {
             TerminalUI.Error("An error occurred while writing to the file: ", e.getMessage());
         }
+    }
+
+    public static void showDifferences() {
+        System.out.println(ANSI_YELLOW + "Changes:" + ANSI_RESET);
+
+        for (int i = 0; i < oldContent.size(); i++) {
+            if (i >= content.size() || !content.get(i).equals(oldContent.get(i))) {
+                System.out.println(ANSI_RED + "- Removed: " + oldContent.get(i) + ANSI_RESET);
+            }
+        }
+
+        for (int i = 0; i < content.size(); i++) {
+            if (i >= oldContent.size() || !content.get(i).equals(oldContent.get(i))) {
+                System.out.println(ANSI_GREEN + "+ Added: " + content.get(i) + ANSI_RESET);
+            }
+        }
+        System.out.println("\nPress Enter to continue...");
+        scanner.nextLine();
     }
 }
