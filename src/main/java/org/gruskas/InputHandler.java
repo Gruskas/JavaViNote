@@ -109,6 +109,11 @@ public class InputHandler {
             case "decrypt":
                 FileOperations.decryptFile(getFileName(), getPassword());
                 break;
+            case ":em":
+            case "editmode":
+                EditMode.running = true;
+                EditMode.editMode(getFileName());
+                break;
             default:
                 TerminalUI.warn("Invalid input. For help, try 'help'");
         }
