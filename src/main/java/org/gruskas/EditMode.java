@@ -16,10 +16,16 @@ public class EditMode extends InputHandler {
     public static boolean running = false;
     public static ArrayList<String> content = new ArrayList<>();
     public static ArrayList<String> oldContent = new ArrayList<>();
-    private static String name = null;
+    private static File file = null;
 
-    public static void editMode(String name) {
-        readFile(name);
+    public static void editMode(String inputFile) {
+        File file = new File(inputFile);
+        EditMode.file = file;
+        try {
+            readFile();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         oldContent = content;
         while (running) {
             ClearTerminal.clear();
@@ -31,17 +37,11 @@ public class EditMode extends InputHandler {
         }
     }
 
-    public static void readFile(String name) {
-        if (!name.isEmpty()) {
-            File file = new File(FileOperations.folderPath + File.separator + name + ".txt");
-            try (Scanner scanner = new Scanner(file)) {
-                content.clear();
-                while (scanner.hasNextLine()) {
-                    content.add(scanner.nextLine());
-                }
-                EditMode.name = name;
-            } catch (FileNotFoundException e) {
-                TerminalUI.Error("An error occurred while reading the file: ", e.getMessage());
+    public static void readFile() throws FileNotFoundException {
+        try (Scanner scanner = new Scanner(file)) {
+            content.clear();
+            while (scanner.hasNextLine()) {
+                content.add(scanner.nextLine());
             }
         }
     }
@@ -69,7 +69,7 @@ public class EditMode extends InputHandler {
                 longest = 10;
             }
             System.out.println(ANSI_RED + "+" + "-".repeat(longest + 28) + "+");
-            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Edit Mode" + " ".repeat(longest - 5) + ANSI_RESET + ANSI_RED + " |  " + ANSI_RESET + ANSI_BOLD + "Last Modification"  + ANSI_RESET + ANSI_RED + "  |");
+            System.out.println(ANSI_RED + "| " + ANSI_RESET + ANSI_BOLD + "Edit Mode" + " ".repeat(longest - 5) + ANSI_RESET + ANSI_RED + " |  " + ANSI_RESET + ANSI_BOLD + "Last Modification" + ANSI_RESET + ANSI_RED + "  |");
             System.out.println(ANSI_RED + "+" + "-".repeat(longest + 28) + "+");
 
             for (String line : content) {
@@ -137,7 +137,7 @@ public class EditMode extends InputHandler {
     }
 
     public static void WriteToFile(boolean wq) {
-        try (FileWriter Writer = new FileWriter(FileOperations.folderPath + File.separator + name + ".txt", false)) {
+        try (FileWriter Writer = new FileWriter(file)) {
             for (String line : content) {
                 Writer.write(line + System.lineSeparator());
             }

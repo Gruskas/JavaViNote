@@ -214,6 +214,13 @@ public class FileOperations {
         }
     }
 
+    public static void editMode(String fileName) throws FileNotFoundException {
+        Path Path = Paths.get(FileOperations.folderPath + File.separator + fileName + ".txt");
+        EditMode.running = true;
+        String filePath = Path.toString();
+        EditMode.editMode(filePath);
+    }
+
     public static String DateTimeNow() {
         LocalDateTime DateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

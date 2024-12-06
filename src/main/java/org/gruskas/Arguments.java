@@ -46,10 +46,24 @@ public class Arguments {
                     decryptArgument(i, args);
                     i += 3;
                     break;
+                case "-em":
+                case "--editmode":
+                    editModeArgumnet(i, args);
+                    i += 1;
+                    break;
                 default:
                     TerminalUI.Error("Unknown argument: " + arg + "\nFor help, use --help");
                     return;
             }
+        }
+    }
+
+    private static void editModeArgumnet(int i, String[] args) {
+        if (i + 1 < args.length) {
+            EditMode.running = true;
+            EditMode.editMode(args[++i]);
+        } else {
+            TerminalUI.Error("Missing arguments for editmode. Usage: --editmode <file>");
         }
     }
 

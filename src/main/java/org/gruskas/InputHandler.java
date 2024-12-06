@@ -1,10 +1,11 @@
 package org.gruskas;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.Random;
+import java.util.Scanner;
 
 public class InputHandler {
     private static final Scanner scanner = new Scanner(System.in);
@@ -111,8 +112,11 @@ public class InputHandler {
                 break;
             case ":em":
             case "editmode":
-                EditMode.running = true;
-                EditMode.editMode(getFileName());
+                try {
+                    FileOperations.editMode(getFileName());
+                } catch (FileNotFoundException e) {
+                    TerminalUI.Error("File not found: " + e.getMessage());
+                }
                 break;
             default:
                 TerminalUI.warn("Invalid input. For help, try 'help'");
