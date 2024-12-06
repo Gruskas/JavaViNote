@@ -29,7 +29,6 @@ public class InputHandler {
                     FileOperations.CreateFile(getFileNameC());
                 } catch (IOException e) {
                     TerminalUI.Error("Failed to create file: ", e.getMessage());
-                    e.printStackTrace();
                 }
                 break;
             case ":d":
@@ -45,7 +44,6 @@ public class InputHandler {
                     FileOperations.DeleteLine(getFileName(), line);
                 } catch (Exception e) {
                     TerminalUI.Error("Error while deleting line", e.getMessage());
-                    e.printStackTrace();
                 }
                 break;
             case ":o":
@@ -62,7 +60,6 @@ public class InputHandler {
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
                     TerminalUI.Error("Unexpected error: " + e.getMessage());
-                    e.printStackTrace();
                 }
                 break;
             case ":a":
@@ -75,7 +72,6 @@ public class InputHandler {
                     FileOperations.WriteToFile(fileName, content, append);
                 } catch (Exception e) {
                     TerminalUI.Error("Unexpected error: " + e.getMessage());
-                    e.printStackTrace();
                 }
                 break;
             case ":ul":
@@ -91,7 +87,6 @@ public class InputHandler {
                     FileOperations.UpdateLine(fileName, line, newContent);
                 } catch (Exception e) {
                     TerminalUI.Error("Unexpected error: " + e.getMessage());
-                    e.printStackTrace();
                 }
                 break;
             case ":r":

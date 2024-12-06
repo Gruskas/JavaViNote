@@ -120,7 +120,7 @@ public class TerminalUI {
 
             terminal.flush();
         } catch (IOException e) {
-            e.printStackTrace();
+            TerminalUI.Error("Error: " + e.getMessage());
         }
     }
 

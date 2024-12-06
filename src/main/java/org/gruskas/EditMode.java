@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +53,9 @@ public class EditMode {
         int longest = 0;
 
         if (content.isEmpty()) {
-            System.out.println("File is empty.");
+            System.out.println(ANSI_RED + "+" + "-".repeat( 16) + "+");
+            System.out.println("| "+ ANSI_RESET + ANSI_BOLD + "File is empty." + ANSI_RESET + ANSI_RED + " |");
+            System.out.println(ANSI_RED + "+" + "-".repeat( 16) + "+");
         } else {
             for (String line : content) {
                 Pattern pattern = Pattern.compile("^(.*)\\s+\\|\\s+(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2})$");
@@ -94,10 +97,19 @@ public class EditMode {
                 running = false;
                 break;
             case "d":
-                int line = scanner.nextInt();
-                deleteLine(line);
+                try {
+                    System.out.print("Enter a line to delete: ");
+                    int line = scanner.nextInt();
+                    deleteLine(line);
+                } catch (InputMismatchException e) {
+                    TerminalUI.Error("Error deleting line.");
+                    scanner.nextLine();
+                    System.out.println("Press Enter to continue...");
+                    scanner.nextLine();
+                }
                 break;
             case "a":
+                System.out.print("Enter a sentence: ");
                 String newContent = scanner.nextLine();
                 addLine(newContent);
                 break;
@@ -114,9 +126,15 @@ public class EditMode {
                 showDifferences();
                 break;
             case "e":
-                int lineToReplace = Integer.parseInt(scanner.nextLine());
-                String newContent2 = scanner.nextLine();
-                replaceLine(lineToReplace, newContent2);
+                try {
+                    System.out.print("Enter line number: ");
+                    int lineToReplace = scanner.nextInt();
+                    System.out.print("Enter a sentence: ");
+                    String newContent2 = scanner.nextLine();
+                    replaceLine(lineToReplace, newContent2);
+                } catch (NumberFormatException e) {
+                    TerminalUI.Error("Wrong line number");
+                }
                 break;
         }
     }

@@ -86,9 +86,14 @@ public class Arguments {
     private static void updateLineArgument(int i, String[] args) {
         if (i + 3 < args.length) {
             String path = args[++i];
-            int line = Integer.parseInt(args[++i]);
-            String newContent = args[++i];
-            ArgumentsEditor.UpdateLine(path, line, newContent);
+
+            try {
+                int line = Integer.parseInt(args[++i]);
+                String newContent = args[++i];
+                ArgumentsEditor.UpdateLine(path, line, newContent);
+            } catch (NumberFormatException e) {
+                TerminalUI.Error("The second argument should be a valid line number. Error: " + e.getMessage());
+            }
         } else {
             TerminalUI.Error("Missing arguments for update-line. Usage: --update-line <file> <line> <newContent>");
         }

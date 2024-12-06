@@ -25,7 +25,6 @@ public class FileOperations {
                 Files.createDirectories(path);
             } catch (IOException e) {
                 TerminalUI.Error("Failed to create directory: ", e.getMessage());
-                e.printStackTrace();
             }
         }
     }
@@ -68,7 +67,6 @@ public class FileOperations {
             }
         } catch (IOException e) {
             TerminalUI.Error("Error while creating file: " + e.getMessage());
-            e.printStackTrace();
         }
     }
 
